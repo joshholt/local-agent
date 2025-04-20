@@ -42,17 +42,12 @@ async fn read_file(path: PathBuf) -> Result<String, Box<dyn Error + Send + Sync>
 /// * path - The relative path to list files from. Defaults to current directory if not provided.
 #[ollama_rs::function]
 async fn list_files(path: PathBuf) -> Result<String, Box<dyn Error + Send + Sync>> {
-    // Ensure that the given path is a directory or bail.
-    if !path.is_dir() {
-        return Err(format!("Path {} is not a directory.", path.display()).into());
-    }
-
     let mut entries = fs::read_dir(&path).await?;
     let mut result = String::new();
 
     while let Some(entry) = entries.next_entry().await? {
         let entry_path = entry.path();
-        if let Some(name) = path.file_name().and_then(|n| n.to_str()) {
+        if let Some(name) = entry_path.file_name().and_then(|n| n.to_str()) {
             if entry_path.is_dir() {
                 result.push_str(&format!("{}/\n", name));
             } else {
