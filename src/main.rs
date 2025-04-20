@@ -59,6 +59,27 @@ async fn list_files(path: PathBuf) -> Result<String, Box<dyn Error + Send + Sync
     Ok(result)
 }
 
+/// Make edits to a text file. Replaces 'old_str' with 'new_str' in the given file. 'old_str' and 'new_str' Must be different from each other. If the file specified doesn't exist, it will be created.
+///
+/// * path - The path to the file
+/// * old_str - Text to search for - must match eactly and must have only one match exactly
+/// * new_str - Text to replace old_str with
+#[ollama_rs::function]
+async fn edit_file(
+    path: PathBuf,
+    old_str: String,
+    new_str: String,
+) -> Result<String, Box<dyn Error + Send + Sync>> {
+    // TODO: Add logic to edit or create a file.
+    // If the file specified doesn't exits then it needs to be created
+    // If the path for the file is not in the CWD and old_str is nil/empth then the directory structure will need to be created first.
+    // Then the file can be created at the path given with the contents of new_str
+    // If the file path given doesn't exist but is in the CWD and old_str is empty then we can just write the new file with the contens of new_str in CWD.
+    // If the file exists and old_str and new_str are not empty and the result of replacing old_str with new_str doesn't yield the original contents of the files, then we write the replaced content back to the existing file.
+    // Unless there are errors we return the string OK, otherwise we return Err with the reason as a string.
+    Ok("OK".to_string())
+}
+
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
     // Create an Ollama client with default values (e.g. connecting to local host, etc...)
@@ -73,6 +94,7 @@ async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
         .options(ModelOptions::default().num_ctx(MODEL_CTX_SIZE))
         .add_tool(read_file)
         .add_tool(list_files)
+        .add_tool(edit_file)
         .debug(DEBUG);
 
     // Implement an infinite loop that allows the users to supply text to provide to the assistant for responses.
