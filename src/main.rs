@@ -59,8 +59,8 @@ async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
 
         let mut input = String::new();
         std::io::stdin().read_line(&mut input)?;
-        if input.eq_ignore_ascii_case(EXIT_COMMAND) {
-            stdout.write_all(b"\nGoodbye.").await?;
+        if input.trim().eq_ignore_ascii_case(EXIT_COMMAND) {
+            stdout.write_all(b"\nGoodbye.\n").await?;
             stdout.flush().await?;
             break;
         }
