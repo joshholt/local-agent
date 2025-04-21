@@ -8,7 +8,7 @@ use tokio::fs::File;
 use tokio::io::{AsyncReadExt, AsyncWriteExt, stdout};
 
 const MODEL_NAME: &str = "mistral-nemo:latest";
-const DEBUG: bool = false;
+const DEBUG: bool = true;
 const MODEL_CTX_SIZE: u64 = 20000;
 const EXIT_COMMAND: &str = "exit";
 
@@ -42,6 +42,10 @@ async fn read_file(path: PathBuf) -> Result<String, Box<dyn Error + Send + Sync>
 /// * path - The relative path to list files from. Defaults to current directory if not provided.
 #[ollama_rs::function]
 async fn list_files(path: PathBuf) -> Result<String, Box<dyn Error + Send + Sync>> {
+    if !path.is_dir() {
+        return Err(format!("The provide path {} is not a directory, only directories can have their contents listed.", path.display()).into());
+    }
+
     let mut entries = fs::read_dir(&path).await?;
     let mut result = String::new();
 
