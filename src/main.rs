@@ -1,3 +1,4 @@
+use clap::Parser;
 use ollama_rs::{
     Ollama, coordinator::Coordinator, generation::chat::ChatMessage, models::ModelOptions,
 };
@@ -7,9 +8,6 @@ use tokio::fs;
 use tokio::fs::File;
 use tokio::io::{AsyncReadExt, AsyncWriteExt, stdout};
 
-const MODEL_NAME: &str = "mistral-nemo:latest";
-const DEBUG: bool = true;
-const MODEL_CTX_SIZE: u64 = 20000;
 const EXIT_COMMAND: &str = "exit";
 
 /// Read and return the contents of a file at the given path only when the contents of a file is needed. The given path must not be a directory.
@@ -189,8 +187,21 @@ async fn edit_file(
     }
 }
 
+#[derive(Parser)]
+#[command(version, about, long_about = None)]
+struct Cli {
+    #[arg(short, long, default_value_t = String::from("cogito:14b"))]
+    model_name: String,
+    #[arg(short, long)]
+    debug: bool,
+    #[arg(short, long, default_value_t = 20000)]
+    ctx_size: u64,
+}
+
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
+    // Parse command line arguments.
+    let cli = Cli::parse();
     // Create an Ollama client with default values (e.g. connecting to local host, etc...)
     let ollama = Ollama::default();
     // Create an empty Vec to hold the history of all chat messages.
@@ -199,12 +210,12 @@ async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
     let mut stdout = stdout();
 
     // Setup the coordinator so that assistant has access to the chat history and useful tools to help the user acheive their goals.
-    let mut agent = Coordinator::new(ollama, MODEL_NAME.to_string(), history)
-        .options(ModelOptions::default().num_ctx(MODEL_CTX_SIZE))
+    let mut agent = Coordinator::new(ollama, cli.model_name.to_string(), history)
+        .options(ModelOptions::default().num_ctx(cli.ctx_size))
         .add_tool(read_file)
         .add_tool(list_files)
         .add_tool(edit_file)
-        .debug(DEBUG);
+        .debug(cli.debug);
 
     // Implement an infinite loop that allows the users to supply text to provide to the assistant for responses.
     loop {

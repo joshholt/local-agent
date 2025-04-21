@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+clap = { version = "4.5.37", features = ["derive"] }
 fs2 = "0.4.3"
 ollama-rs = { version = "0.3.0", features = ["default", "stream", "headers", "macros"] }
 schemars = { version = "0.8.22", features = ["preserve_order"] }
