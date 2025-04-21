@@ -187,6 +187,25 @@ async fn edit_file(
     }
 }
 
+/// Convert Markdown to HTML
+///
+/// * contents - The Markdown text to be converted to HTML
+#[ollama_rs::function]
+async fn markdown_to_html(contents: String) -> Result<String, Box<Error + Send + Sync>> {
+    if contents.is_empty() {
+        return Err(format!("Cannot convert an empty string to HTML").into());
+    }
+
+    match markdown::to_html_with_options(&contents, &markdown::Options::gfm()) {
+        Ok(result) => {
+            return Ok(result);
+        }
+        Err(e) => {
+            return Err(format!("Markdown to HTML conversion failed, Reason: {}", e).into());
+        }
+    }
+}
+
 #[derive(Parser)]
 #[command(version, about, long_about = None)]
 struct Cli {
@@ -215,6 +234,7 @@ async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
         .add_tool(read_file)
         .add_tool(list_files)
         .add_tool(edit_file)
+        .add_tool(markdown_to_html)
         .debug(cli.debug);
 
     // Implement an infinite loop that allows the users to supply text to provide to the assistant for responses.
