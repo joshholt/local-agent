@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rust Code Analysis</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        header {
+            background: #2a2a2a;
+            color: white;
+            padding: 1rem 2rem;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+            padding: 2rem;
+        }
+        #sidebar {
+            background: #f4f4f4;
+            padding: 1rem;
+        }
+        #sidebar a {
+            display: block;
+            margin: 0.5rem 0;
+            color: #333;
+            text-decoration: none;
+            padding: 0.5rem;
+        }
+        #sidebar a:hover {
+            background: #e0e0f0;
+        }
+        main {
+            padding: 1rem;
+        }
+        h1, h2, h3 {
+            color: #2a2a2a;
+        }
+        h1 {
+            font-size: 2.5rem;
+        }
+        h2 {
+            font-size: 2rem;
+        }
+        h3 {
+            font-size: 1.75rem;
+        }
+        p, ul {
+            color: #4a4a4a;
+        }
+        code {
+            background: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Rust Code Analysis</h1>
+    </header>
+    <div class="container">
+        <nav id="sidebar">
+            <a href="#introduction">Introduction</a>
+            <a href="#dependencies-and-imports">Dependencies and Imports</a>
+            <a href="#main-components">Main Components</a>
+            <a href="#features">Features</a>
+            <a href="#error-handling-and-robustness">Error Handling and Robustness</a>
+            <a href="#user-interface">User Interface</a>
+        </nav>
+        <main>
+            <h1>Rust Code Analysis</h1>
+            <h2 id="introduction">Introduction</h2>
+            <p>This analysis provides an overview of the Rust codebase for a command-line interface application that utilizes Ollama, an open-source framework designed for running language models.</p>
+            
+            <h2 id="dependencies-and-imports">Dependencies and Imports</h2>
+            <p>The code imports various libraries including <code>clap</code> for CLI argument handling, <code>ollama_rs</code>, standard Rust libraries (<code>std::error</code>, <code>std::path</code>, <code>tokio</code>), and other utilities required to function.</p>
+            
+            <h2 id="main-components">Main Components</h2>
+            <h3>Function Implementations</h3>
+            <p>Three primary functions are defined:</p>
+            <ul>
+                <li><strong>read_file</strong>: Reads the contents of a file with error checking for non-file paths and empty files.</li>
+                <li><strong>list_files</strong>: Lists files within a specified directory, ensuring path validity before proceeding.</li>
+                <li><strong>edit_file</strong>: Replaces specific text in a file, creating the file if it doesn't exist or constructing necessary directories.</li>
+            </ul>
+            
+            <h3>Command Line Arguments</h3>
+            <p>The application leverages <code>clap</code> for argument parsing with options:</p>
+            <ul>
+                <li><code>model_name</code>: Specifies which model to use (defaults to "cogito:14b")</li>
+                <li><code>debug</code>: Enables debug mode</li>
+                <li><code>ctx_size</code>: Determines the context size used by the model</li>
+            </ul>
+            
+            <h3>Main Function</h3>
+            <p>The program initializes an Ollama client, sets up a chat coordinator with access to predefined tools, and implements a loop for continuous user input handling.</p>
+            
+            <h2 id="features">Features</h2>
+            <p>The application provides:</p>
+            <ul>
+                <li>Language model interaction via CLI interface</li>
+                <li>File system operations integration (read, list, edit)</li>
+                <li>Context customization through command-line arguments</li>
+            </ul>
+            
+            <h2 id="error-handling-and-robustness">Error Handling and Robustness</h2>
+            <p>Robust error handling is implemented using Rust's Result type, ensuring proper management of potential issues during execution. Async/await syntax enables non-blocking I/O operations for improved responsiveness.</p>
+            
+            <h2 id="user-interface">User Interface</h2>
+            <p>A simple CLI interface uses color-coded prompts:</p>
+            <ul>
+                <li><strong>User Input</strong>: Blue (<code>\x1b[34mYou: ></code>)</li>
+                <li><strong>Assistant Responses</strong>: Yellow (<code>\x1b[33mAssistant: ></code>) with the ability to exit by typing "exit".</li>
+            </ul>
+        </main>
+    </div>
+</body>
+</html>
