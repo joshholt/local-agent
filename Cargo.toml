@@ -1,5 +1,7 @@
 [package]
-name = "code-analysis-agent"
+name = "local-agent"
+description = "A Rust-based AI assistant that leverages the Ollama API to perform file operations and Markdown conversions through natural language chat interactions."
+authors = ["Josh Holt <holt.josh@gmail.com>"]
 version = "0.1.0"
 edition = "2024"
 

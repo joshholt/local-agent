@@ -209,7 +209,7 @@ async fn markdown_to_html(contents: String) -> Result<String, Box<Error + Send +
 }
 
 #[derive(Parser)]
-#[command(version, about, long_about = None)]
+#[command(version, author, about, long_about = None)]
 struct Cli {
     #[arg(short, long, default_value_t = String::from("cogito:14b"))]
     model_name: String,
