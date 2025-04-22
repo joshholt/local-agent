@@ -17,8 +17,8 @@ This project creates an interactive command-line interface where users can:
 
 ### Installation
 ```bash
-git clone https://github.com/your-repo.git
-cd your-repo
+git clone https://github.com/joshholt/local-agent.git local-agent
+cd local-agent
 cargo build --release
 ```
 
@@ -30,7 +30,7 @@ cargo run --release [OPTIONS]
 ## Usage
 1. Start the assistant:
 ```bash
-cargo run --release
+cargo run --release [OPTIONS]
 ```
 2. Enter commands at the `You: >` prompt. Type `exit` to quit.
 
