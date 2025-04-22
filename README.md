@@ -29,9 +29,9 @@ cargo run --release [OPTIONS]
 
 ## Usage
 1. Start the assistant:
-   ```bash
+```bash
 cargo run --release
-   ```
+```
 2. Enter commands at the `You: >` prompt. Type `exit` to quit.
 
 ### Available Commands/Tools
