@@ -96,7 +96,9 @@ async fn create_file(path: &PathBuf, contents: &str) -> Result<String, Box<dyn E
     }
 }
 
-/// Make edits to a text file. Replaces 'old_str' with 'new_str' in the given file. 'old_str' and 'new_str' Must be different from each other. If the file specified doesn't exist, it will be created.
+/// Make edits to a text file. Replaces 'old_str' with 'new_str' in the given file.
+/// 'old_str' and 'new_str' Must be different from each other.
+/// If the file specified doesn't exist, it will be created.
 ///
 /// * path - The path to the file
 /// * old_str - Text to search for - must match eactly and must have only one match exactly
